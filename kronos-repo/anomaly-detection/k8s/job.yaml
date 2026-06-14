@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: anomaly-detector
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+
+      containers:
+      - name: anomaly-detector
+        image: python:3.11
+
+        command:
+        - python
+        - /scripts/detect_anomalies.py
+
+        volumeMounts:
+        - name: script-volume
+          mountPath: /scripts
+
+      volumes:
+      - name: script-volume
+        configMap:
+          name: anomaly-script
+
+  backoffLimit: 1

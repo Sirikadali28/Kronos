@@ -1,0 +1,116 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+ENV/
+env/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# AWS & Terraform
+.terraform/
+.terraform.tfvars
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+aws-credentials
+.aws/
+
+# Kubernetes
+kubeconfig*
+.kube/
+kubeconfig.yaml
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.example
+
+# Local development
+local/
+temp/
+tmp/
+*.log
+*.pid
+
+# Data files
+*.csv
+*.xlsx
+*.xls
+*.parquet
+data/
+datasets/
+*.tar.gz
+*.zip
+
+# Monitoring & ArgoCD
+argocd-password.txt
+prometheus-password.txt
+grafana-password.txt
+monitoring-reports/
+
+# Screenshots & media
+*.png.bak
+*.jpg.bak
+
+# Documentation builds
+docs/_build/
+site/
+
+# GitHub Actions
+.github/workflows/*.backup
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Miscellaneous
+.cache/
+.pytest_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+*.db
+*.sqlite

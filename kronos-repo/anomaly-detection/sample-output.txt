@@ -1,0 +1,73 @@
+============================================================
+KRONOS: Cloud-Native Anomaly Detection Pipeline
+============================================================
+
+[Step 1] Loading Data
+  ✓ Data loaded: 100 records
+
+[Step 2] Initializing Detector
+  ✓ Detector initialized
+
+[Step 3] Running Anomaly Detection Methods
+
+[Z-Score Detection] Starting analysis...
+  Mean: 50.1234
+  Std Dev: 15.3421
+  Threshold: 3σ
+  Anomalies Found: 8
+  Z-Score Anomalies at indices: [15, 30, 45, 60, 75, 88, 92, 95]...
+
+[IQR Detection] Starting analysis...
+  Q1 (25th percentile): 38.4521
+  Q3 (75th percentile): 61.2341
+  IQR: 22.7820
+  Lower Bound: 16.3310
+  Upper Bound: 83.3552
+  Anomalies Found: 6
+  IQR Anomalies at indices: [15, 30, 45, 60, 75, 88]...
+
+[Moving Average Detection] Starting analysis...
+  Window Size: 7
+  Deviation Std Dev: 2.1543
+  Threshold: 2 × 2.1543 = 4.3086
+  Anomalies Found: 5
+  MA Anomalies at indices: [15, 30, 45, 60, 75]...
+
+[Step 4] Ensemble Voting
+  Z-Score Anomalies: 8
+  IQR Anomalies: 6
+  MA Anomalies: 5
+  Voting Threshold: 2
+  Confirmed Anomalies: 4
+
+[Step 5] Generating Report
+  Report saved to: anomaly-report.csv
+  ✓ Report generated
+
+============================================================
+ANOMALY DETECTION SUMMARY
+============================================================
+
+Dataset Information:
+  Total Records: 100
+  Column Analyzed: value
+  Date Range: 2024-01-01 to 2024-04-09
+  Value Range: 12.3456 to 87.6543
+
+Detection Results:
+  Z-Score Method: 8 anomalies
+  IQR Method: 6 anomalies
+  Moving Average: 5 anomalies
+  Combined (Voting): 4 anomalies
+  Anomaly Rate: 4.00%
+
+Confirmed Anomalies (First 10):
+  2024-01-16: 78.5421 (flagged by: Z-Score, IQR, MA)
+  2024-01-31: 12.3456 (flagged by: Z-Score, IQR, MA)
+  2024-02-15: 81.2341 (flagged by: Z-Score, MA)
+  2024-03-02: 14.5123 (flagged by: Z-Score, IQR)
+
+✓ Pipeline completed successfully!
+  Output: anomaly-report.csv
+  Execution Time: 0.23s
+  Memory Used: 12.4 MB
