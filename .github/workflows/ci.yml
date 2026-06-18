@@ -1,0 +1,30 @@
+name: KRONOS CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  anomaly-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Dependencies
+        run: |
+          cd anomaly-detection
+          pip install -r requirements.txt
+
+      - name: Run Anomaly Detection
+        run: |
+          cd anomaly-detection
+          python detect_anomalies.py
