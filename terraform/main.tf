@@ -1,16 +1,16 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 20.31"
+  version = "~> 21.0"
 
-  cluster_name    = var.cluster_name
-  cluster_version = var.cluster_version
+  name               = var.cluster_name
+  kubernetes_version = var.cluster_version
 
   vpc_id = "vpc-0e00ba3980644825e"
 
   subnet_ids = [
-    "subnet-0204cc39bc52662ed",
     "subnet-05ed29d7bc7738998",
-    "subnet-0821d70a76847a1ee"
+    "subnet-0821d70a76847a1ee",
+    "subnet-0204cc39bc52662ed"
   ]
 
   enable_irsa = true
