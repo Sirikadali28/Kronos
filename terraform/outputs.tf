@@ -13,3 +13,6 @@ output "cluster_version" {
 output "region" {
   value = var.aws_region
 }
+output "ecr_repository_url" {
+  value = aws_ecr_repository.kronos_anomaly.repository_url
+}
