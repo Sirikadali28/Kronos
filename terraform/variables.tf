@@ -13,9 +13,8 @@ variable "cluster_name" {
 variable "cluster_version" {
   description = "Kubernetes Version"
   type        = string
-  default     = "1.34"
+  default     = "1.33"
 }
-
 variable "instance_type" {
   description = "Worker Node Instance Type"
   type        = string
@@ -24,9 +23,8 @@ variable "instance_type" {
 
 variable "desired_size" {
   type    = number
-  default = 2
+  default = 1
 }
-
 variable "min_size" {
   type    = number
   default = 1
@@ -34,5 +32,5 @@ variable "min_size" {
 
 variable "max_size" {
   type    = number
-  default = 2
+  default = 1
 }
