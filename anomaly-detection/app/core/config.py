@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     port: int = 8000
 
     log_level: str = "INFO"
+    database_url: str
 
     model_config = SettingsConfigDict(
         env_file=".env",
