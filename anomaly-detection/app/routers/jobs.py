@@ -4,7 +4,9 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
+from app.core.dependencies import get_current_user
 from app.db.job_history import JobHistory
+from app.db.user import User
 from app.repositories.job_repository import JobRepository
 from app.services.csv_service import CSVService
 from app.tasks.detection_task import detect_anomalies_task
@@ -21,6 +23,7 @@ csv_service = CSVService()
 async def upload_job(
     file: UploadFile = File(...),
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     """
     Upload a CSV file, save it, create a pending job,
@@ -58,7 +61,6 @@ async def upload_job(
 
     await repository.save(job)
 
-    # Queue background processing
     detect_anomalies_task.delay(
         job_id,
         saved_filename,
@@ -68,4 +70,5 @@ async def upload_job(
         "job_id": job_id,
         "status": "PENDING",
         "filename": saved_filename,
+        "uploaded_by": current_user.email,
     }
