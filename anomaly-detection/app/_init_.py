@@ -1,3 +1,0 @@
-"""
-KRONOS FastAPI application package.
-"""
