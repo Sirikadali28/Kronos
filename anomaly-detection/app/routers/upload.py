@@ -6,7 +6,7 @@ from fastapi import (
     UploadFile,
 )
 
-from app.core.dependencies import get_current_user
+from app.core.permissions import require_roles
 from app.db.user import User
 from app.services.csv_service import CSVService
 from app.services.detector_service import DetectorService
@@ -24,7 +24,9 @@ detector_service = DetectorService()
 async def upload_csv(
     file: UploadFile = File(...),
     column_name: str = "value",
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(
+        require_roles("admin", "analyst"),
+    ),
 ):
     """
     Upload a CSV file and run anomaly detection.

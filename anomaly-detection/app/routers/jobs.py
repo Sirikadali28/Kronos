@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
-from app.core.dependencies import get_current_user
+from app.core.permissions import require_roles
 from app.db.job_history import JobHistory
 from app.db.user import User
 from app.repositories.job_repository import JobRepository
@@ -23,7 +23,9 @@ csv_service = CSVService()
 async def upload_job(
     file: UploadFile = File(...),
     db: AsyncSession = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(
+        require_roles("admin", "analyst")
+    ),
 ):
     """
     Upload a CSV file, save it, create a pending job,
@@ -43,7 +45,6 @@ async def upload_job(
         )
 
     job_id = str(uuid.uuid4())
-
     saved_filename = f"{job_id}_{file.filename}"
 
     await csv_service.save_upload(

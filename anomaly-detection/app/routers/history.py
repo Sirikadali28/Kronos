@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
-from app.core.dependencies import get_current_user
+from app.core.permissions import require_roles
 from app.db.user import User
 from app.repositories.detection_repository import DetectionRepository
 from app.schemas.history import HistoryListResponse, HistoryResponse
@@ -20,7 +20,13 @@ async def get_history(
     skip: int = 0,
     limit: int = 10,
     db: AsyncSession = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(
+        require_roles(
+            "admin",
+            "analyst",
+            "viewer",
+        ),
+    ),
 ):
     """
     Retrieve paginated detection history.
@@ -43,7 +49,13 @@ async def get_history(
 async def get_history_by_id(
     history_id: UUID,
     db: AsyncSession = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(
+        require_roles(
+            "admin",
+            "analyst",
+            "viewer",
+        ),
+    ),
 ):
     """
     Retrieve a detection history record by ID.
