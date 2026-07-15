@@ -15,7 +15,12 @@ class Settings(BaseSettings):
     port: int = 8000
 
     log_level: str = "INFO"
+
     database_url: str
+
+    # JWT Configuration
+    secret_key: str
+    access_token_expire_minutes: int = 60
 
     model_config = SettingsConfigDict(
         env_file=".env",
