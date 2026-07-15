@@ -31,5 +31,16 @@ services:
       - "8000:8000"
     restart: always
 
+  celery-worker:
+    build: .
+    container_name: kronos-worker
+    command: celery -A app.workers.celery_app.celery worker --loglevel=info
+    depends_on:
+      - redis
+      - postgres
+    env_file:
+      - .env.docker
+    restart: always
+
 volumes:
   postgres_data:
