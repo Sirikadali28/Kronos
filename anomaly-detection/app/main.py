@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-<<<<<<< HEAD
+
 app = FastAPI(
     title="KRONOS",
     description="Cloud-Native Anomaly Detection Platform",
@@ -21,9 +21,10 @@ def root():
         "status": "running",
         "version": "2.0.0"
     }
-=======
+
 from app.core.config import settings
 from app.core.logging import configure_logging
+from app.core.exceptions import register_exception_handlers
 from app.routers.health import router as health_router
 from app.routers.detection import router as detection_router
 logger = configure_logging()
@@ -36,6 +37,7 @@ app = FastAPI(
 
 app.include_router(health_router)
 app.include_router(detection_router)
+register_exception_handlers(app)
 
 @app.get("/")
 async def root():
@@ -47,4 +49,4 @@ async def root():
 
 
 logger.info("KRONOS service started successfully.")
->>>>>>> 5163675 (Phase 1 Milestone 4: Add FastAPI health and detection APIs)
+
