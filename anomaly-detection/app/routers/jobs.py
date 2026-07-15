@@ -7,6 +7,7 @@ from app.core.database import get_db
 from app.db.job_history import JobHistory
 from app.repositories.job_repository import JobRepository
 from app.services.csv_service import CSVService
+from app.tasks.detection_task import detect_anomalies_task
 
 router = APIRouter(
     prefix="/jobs",
@@ -22,7 +23,8 @@ async def upload_job(
     db: AsyncSession = Depends(get_db),
 ):
     """
-    Upload a CSV and create a pending background job.
+    Upload a CSV file, save it, create a pending job,
+    and queue a background Celery task.
     """
 
     if not file.filename:
@@ -55,6 +57,12 @@ async def upload_job(
     )
 
     await repository.save(job)
+
+    # Queue background processing
+    detect_anomalies_task.delay(
+        job_id,
+        saved_filename,
+    )
 
     return {
         "job_id": job_id,
