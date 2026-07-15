@@ -9,7 +9,7 @@ from app.db.base import Base
 # Import all models
 from app.db.detection_history import DetectionHistory  # noqa: F401
 from app.db.job_history import JobHistory  # noqa: F401
-
+from app.db.user import User
 config = context.config
 
 if config.config_file_name is not None:
