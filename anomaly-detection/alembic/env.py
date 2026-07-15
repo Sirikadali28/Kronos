@@ -1,4 +1,5 @@
 from logging.config import fileConfig
+import os
 
 from sqlalchemy import engine_from_config, pool
 
@@ -20,7 +21,8 @@ target_metadata = Base.metadata
 def run_migrations_offline() -> None:
     """Run migrations in offline mode."""
 
-    url = config.get_main_option("sqlalchemy.url")
+    # Use DATABASE_URL from environment, fallback to config
+    url = os.getenv("DATABASE_URL") or config.get_main_option("sqlalchemy.url")
 
     context.configure(
         url=url,
@@ -37,8 +39,20 @@ def run_migrations_offline() -> None:
 def run_migrations_online() -> None:
     """Run migrations in online mode."""
 
+    # Use DATABASE_URL from environment if available
+    database_url = os.getenv("DATABASE_URL")
+    
+    if database_url:
+        # Use asyncpg URL as-is for async migrations
+        configuration = {
+            "sqlalchemy.url": database_url,
+            "sqlalchemy.poolclass": pool.NullPool,
+        }
+    else:
+        configuration = config.get_section(config.config_ini_section)
+
     connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
+        configuration,
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
