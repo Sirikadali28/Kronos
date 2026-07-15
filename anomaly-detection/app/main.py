@@ -9,6 +9,7 @@ from app.core.exceptions import register_exception_handlers
 from app.routers.health import router as health_router
 from app.routers.detection import router as detection_router
 from app.routers.history import router as history_router
+from app.routers.upload import router as upload_router
 
 # Configure logging
 logger = configure_logging()
@@ -26,6 +27,7 @@ app = FastAPI(
 app.include_router(health_router)
 app.include_router(detection_router)
 app.include_router(history_router)
+app.include_router(upload_router)
 
 # Register exception handlers
 register_exception_handlers(app)
