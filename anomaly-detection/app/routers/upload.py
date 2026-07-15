@@ -1,5 +1,13 @@
-from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi import (
+    APIRouter,
+    Depends,
+    File,
+    HTTPException,
+    UploadFile,
+)
 
+from app.core.dependencies import get_current_user
+from app.db.user import User
 from app.services.csv_service import CSVService
 from app.services.detector_service import DetectorService
 
@@ -16,6 +24,7 @@ detector_service = DetectorService()
 async def upload_csv(
     file: UploadFile = File(...),
     column_name: str = "value",
+    current_user: User = Depends(get_current_user),
 ):
     """
     Upload a CSV file and run anomaly detection.
@@ -47,4 +56,5 @@ async def upload_csv(
         "rows": len(report),
         "confirmed_anomalies": result["total_anomalies"],
         "report": report.to_dict(orient="records"),
+        "uploaded_by": current_user.email,
     }
