@@ -37,10 +37,11 @@ class DetectorService:
         )
 
     def run_detection(
-        self,
-        dataframe: pd.DataFrame,
-        column_name: str,
-    ):
+    self,
+    dataframe: pd.DataFrame,
+    column_name: str,
+    output_file: str | None = None,
+):
         """
         Execute the complete anomaly detection pipeline.
         """
@@ -56,7 +57,7 @@ class DetectorService:
 
         detector.combine_results()
 
-        report = detector.generate_report()
+        report = detector.generate_report(output_file)
 
         return {
             "detector": detector,
