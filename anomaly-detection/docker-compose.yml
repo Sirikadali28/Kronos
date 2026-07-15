@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: kronos-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: kronos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 22601Siri
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: kronos-redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  api:
+    build: .
+    container_name: kronos-api
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env.docker
+    ports:
+      - "8000:8000"
+    restart: always
+
+volumes:
+  postgres_data:
