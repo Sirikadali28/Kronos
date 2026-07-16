@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kronos
+
+resources:
+  # Core
+  - namespace.yaml
+  - configmap.yaml
+  - secret.yaml
+  - ingress.yaml
+
+  # PostgreSQL
+  - postgres/persistent-volume.yaml
+  - postgres/persistent-volume-claim.yaml
+  - postgres/deployment.yaml
+  - postgres/service.yaml
+
+  # Redis
+  - redis/deployment.yaml
+  - redis/service.yaml
+
+  # API
+  - api/deployment.yaml
+  - api/service.yaml
+  - api/hpa.yaml
+
+  # Worker
+  - worker/deployment.yaml
+
+commonLabels:
+  app.kubernetes.io/name: kronos
+  app.kubernetes.io/managed-by: kustomize

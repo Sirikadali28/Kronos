@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: kronos-worker
+  namespace: kronos
+
+  labels:
+    app: kronos-worker
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: kronos-worker
+
+  template:
+    metadata:
+      labels:
+        app: kronos-worker
+
+    spec:
+      containers:
+        - name: celery-worker
+
+          image: anomaly-detection-api:latest
+
+          imagePullPolicy: Never
+
+          command:
+            - celery
+            - -A
+            - app.workers.celery_app.celery
+            - worker
+            - --loglevel=info
+
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: kronos-secret
+                  key: database-url
+
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: kronos-config
+                  key: REDIS_URL
+
+            - name: CELERY_BROKER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: kronos-config
+                  key: CELERY_BROKER_URL
+
+            - name: CELERY_RESULT_BACKEND
+              valueFrom:
+                configMapKeyRef:
+                  name: kronos-config
+                  key: CELERY_RESULT_BACKEND
+
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
