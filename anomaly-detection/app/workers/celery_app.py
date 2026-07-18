@@ -1,10 +1,11 @@
-
 from celery import Celery
+
+from app.core.config import settings
 
 celery = Celery(
     "kronos",
-    broker="redis://redis:6379/0",
-    backend="redis://redis:6379/0",
+    broker=settings.celery_broker_url,
+    backend=settings.celery_result_backend,
 )
 
 celery.conf.update(
@@ -13,4 +14,10 @@ celery.conf.update(
     result_serializer="json",
     timezone="UTC",
     enable_utc=True,
+)
+
+celery.autodiscover_tasks(
+    [
+        "app.tasks",
+    ]
 )

@@ -22,6 +22,13 @@ class Settings(BaseSettings):
     secret_key: str
     access_token_expire_minutes: int = 60
 
+    # Redis
+    redis_url: str = "redis://redis:6379/0"
+
+    # Celery
+    celery_broker_url: str = "redis://redis:6379/0"
+    celery_result_backend: str = "redis://redis:6379/0"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

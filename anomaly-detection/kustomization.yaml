@@ -1,0 +1,4 @@
+labels:
+  - pairs:
+      app.kubernetes.io/name: kronos
+      app.kubernetes.io/managed-by: kustomize

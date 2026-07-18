@@ -4,7 +4,6 @@ kind: Deployment
 metadata:
   name: kronos-postgres
   namespace: kronos
-
   labels:
     app: kronos-postgres
 
@@ -23,7 +22,6 @@ spec:
     spec:
       containers:
         - name: postgres
-
           image: postgres:17
 
           ports:
@@ -56,12 +54,11 @@ spec:
             requests:
               cpu: "250m"
               memory: "256Mi"
-
             limits:
               cpu: "500m"
               memory: "512Mi"
 
       volumes:
-  - name: postgres-storage
-    persistentVolumeClaim:
-      claimName: postgres-pvc
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc
