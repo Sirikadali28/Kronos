@@ -1,318 +1,223 @@
-# KRONOS: Cloud-Native Anomaly Detection Platform
+# KRONOS – Cloud-Native Anomaly Detection Platform
 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![AWS](https://img.shields.io/badge/AWS-EKS-FF9900.svg)
-![Kubernetes](https://img.shields.io/badge/kubernetes-1.28+-326ce5.svg)
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Production-009688)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Async-blue)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-Manifests-326CE5)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI%2FCD-success)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-**A hands-on cloud-native implementation demonstrating anomaly detection workflows on Amazon EKS.**
+## Overview
 
-KRONOS is a practical learning project that combines Kubernetes operations, GitOps practices, observability, and statistical anomaly detection to showcase modern cloud-native technologies. It demonstrates real-world deployment patterns, monitoring pipelines, and data-driven insights using production-grade tools.
+KRONOS is a cloud-native anomaly detection platform built with FastAPI. It analyzes time-series data using statistical techniques and exposes a secure REST API using JWT authentication. The project demonstrates production-oriented backend engineering practices including asynchronous database access, Docker, Kubernetes, monitoring, and CI/CD.
 
----
+## Key Features
 
-## Project Overview
+- FastAPI REST API
+- JWT Authentication
+- User registration and login
+- Time-series anomaly detection
+- Detection history
+- File upload endpoint
+- Background processing with Celery and Redis
+- Async PostgreSQL using SQLAlchemy
+- Alembic database migrations
+- Docker & Docker Compose
+- Kubernetes manifests
+- Prometheus metrics
+- Grafana dashboards
+- GitHub Actions CI/CD
+- Automated testing with Pytest
 
-KRONOS demonstrates the implementation of:
+## Detection Algorithms
 
-* **Amazon EKS** for Kubernetes orchestration
-* **Kubernetes** for workload management and validation
-* **ArgoCD** for GitOps workflows
-* **Prometheus and Grafana** for monitoring and observability
-* **Python-based statistical anomaly detection**
-* **Helm** for Kubernetes package management
+Implemented algorithms:
 
-The anomaly detection pipeline applies multiple statistical techniques to identify unusual patterns in time-series datasets and generates actionable reports.
+- Z-Score
+- Interquartile Range (IQR)
+- Moving Average
+- Combined anomaly voting
 
----
+## Technology Stack
 
-## Implementation Evidence
-EKS Cluster Provisioning
+| Layer | Technology |
+|---|---|
+| Backend | FastAPI |
+| Language | Python 3.11 |
+| Database | PostgreSQL |
+| ORM | SQLAlchemy (Async) |
+| Validation | Pydantic |
+| Authentication | JWT |
+| Background Jobs | Celery + Redis |
+| Migrations | Alembic |
+| Monitoring | Prometheus + Grafana |
+| Containerization | Docker |
+| Orchestration | Kubernetes |
+| CI/CD | GitHub Actions |
 
-The following recording shows the successful creation of the EKS cluster using eksctl.
+## Repository Structure
 
-![EKS Provisioning](screenshots/eks-cluster-created.gif)
+```text
+anomaly-detection/
+├── app/
+├── alembic/
+├── k8s/
+├── monitoring/
+├── tests/
+├── .github/workflows/
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
+```
 
-This provisioning process demonstrates:
+## Architecture
 
-- Successful EKS cluster creation
-- Managed node group initialization
-- Worker nodes reaching the Ready state
-- Metrics Server addon installation
-- kubeconfig setup for cluster access
-### Amazon EKS
+```mermaid
+flowchart LR
+    Client --> FastAPI
+    FastAPI --> PostgreSQL
+    FastAPI --> Redis
+    Redis --> Celery
+    FastAPI --> Prometheus
+    Prometheus --> Grafana
+```
 
-![EKS Cluster](screenshots/02-aws-eks-cluster-created.png)
+## Environment Variables
 
-### Worker Nodes
+See `.env.example`.
 
-![EC2 Nodes](screenshots/06-ec2-instances-running-nodes.png)
+Required variables:
 
-### Grafana
+```env
+DATABASE_URL=
+SECRET_KEY=
+DEBUG=
+REDIS_URL=
+CELERY_BROKER_URL=
+CELERY_RESULT_BACKEND=
+ACCESS_TOKEN_EXPIRE_MINUTES=
+```
 
-![Grafana](screenshots/grafana-dashboard.png)
-
-### ArgoCD
-
-![ArgoCD](screenshots/argocd-dashboard.png)
-
-### Anomaly Detection
-
-![Output](screenshots/anomaly-output.png)
-
----
-
-## Implementation Stages
-
-### Stage 1: Amazon EKS Validation
-
-Cluster connectivity and Kubernetes operations were validated using kubectl.
-
-Validation commands:
+## Local Development
 
 ```bash
-kubectl get nodes
-kubectl get pods -A
-kubectl get namespaces
-kubectl cluster-info
-Evidence includes:
-EKS Cluster Overview
-Node Group Details
-EC2 Worker Nodes
-Cluster Health Validation
-Stage 2: GitOps with ArgoCD
-ArgoCD was deployed and validated to explore GitOps workflows.
-Features explored:
-Dashboard access
-Application synchronization
-Declarative deployment concepts
-Application health monitoring
-Stage 3: Observability Stack
-Prometheus and Grafana were deployed using Helm.
-Components:
-Prometheus
-Grafana
-Helm
-Capabilities validated:
-Metrics collection
-Dashboard visualization
-Cluster observability
-Monitoring workflow validation
-Stage 4: Anomaly Detection Pipeline
-The anomaly detection implementation uses multiple statistical techniques to identify abnormal behaviour in time-series data.
-Implemented methods:
-Z-Score Detection
-Interquartile Range (IQR) Detection
-Moving Average Analysis
-Ensemble Voting
-The pipeline generates anomaly reports and execution summaries.
-Technologies Used
-Table
-Category	Technology
-Cloud	Amazon EKS
-Container Orchestration	Kubernetes
-GitOps	ArgoCD
-Monitoring	Prometheus
-Visualization	Grafana
-Package Management	Helm
-CLI Tools	AWS CLI, kubectl
-Analytics	Python
-Libraries	Pandas, NumPy
-Storage Validation	Amazon S3
-Prerequisites
-Install the following tools:
-bash
-aws --version
-kubectl version --client
-helm version
-python --version
-Configure AWS credentials before interacting with EKS.
-Python Dependencies
-Install required packages:
-bash
+python -m venv .venv
 pip install -r requirements.txt
-requirements.txt includes: pandas, numpy, and other dependencies for the anomaly detection pipeline.
-Deployment Scripts
-The repository includes helper scripts for installing and validating selected components within an existing Kubernetes environment.
-Install Prometheus and Grafana
-bash
-bash scripts/install-prometheus.sh
-Install ArgoCD
-bash
-bash scripts/install-argocd.sh
-Deploy the Anomaly Detection Pipeline
-bash
-bash scripts/deploy-anomaly.sh
-Cleanup Resources
-bash
-bash scripts/uninstall.sh
-Ensure AWS CLI, kubectl, and Helm are installed and configured before executing these scripts.
-Repository Structure
-Text
-KRONOS/
-├── README.md
-├── LICENSE
-├── requirements.txt
-├── REPOSITORY_STRUCTURE.md
-│
-├── screenshots/
-│   ├── eks-cluster-overview.png
-│   ├── argocd-dashboard.png
-│   ├── grafana-dashboard.png
-│   └── anomaly-detection-output.png
-│
-├── kubernetes/
-│   ├── cluster-commands.md
-│   ├── deployment-notes.md
-│   ├── namespaces.md
-│   └── validation.md
-│
-├── monitoring/
-│   ├── grafana-installation.md
-│   └── monitoring-commands.md
-│
-├── argocd/
-│   ├── login.md
-│   └── commands.md
-│
-├── anomaly-detection/
-│   ├── detect_anomalies.py
-│   ├── sample_metrics.csv
-│   ├── anomaly-output.txt
-│   └── k8s/
-│       └── job.yaml
-│
-├── scripts/
-│   ├── install-prometheus.sh
-│   ├── install-argocd.sh
-│   ├── deploy-anomaly.sh
-│   └── uninstall.sh
-│
-└── docs/
-    ├── setup-guide.md
-    ├── cleanup-guide.md
-    └── lessons-learned.md
-Anomaly Detection Pipeline
-The anomaly detection pipeline combines multiple statistical techniques:
-Z-Score Method
-Identifies values significantly deviating from the mean.
-Text
-z = (x − μ) / σ
-Anomaly if:
-Text
-|z| > 3
-IQR Method
-Robust outlier detection using quartiles.
-Text
-Lower Bound = Q1 − 1.5 × IQR
-Upper Bound = Q3 + 1.5 × IQR
-Moving Average Method
-Detects deviations from local trends.
-Text
-Deviation = |x − MA|
-Ensemble Voting
-Final anomalies are confirmed only when multiple methods agree.
-This improves reliability and reduces false positives.
-Kubernetes Job Execution
-Unlike continuously running applications, the anomaly detector executes as a Kubernetes Job.
-Workflow:
-ConfigMap is generated from the anomaly detection script.
-Kubernetes Job is created.
-Statistical analysis is executed.
-Reports are generated.
-The Job terminates successfully.
-Deploy:
-bash
-bash scripts/deploy-anomaly.sh
-View logs:
-bash
-kubectl logs job/anomaly-detector
-Monitoring Stack
-The monitoring environment was deployed using Helm.
-Components:
-Prometheus
-Grafana
-Capabilities:
-Cluster health monitoring
-Metrics visualization
-Operational validation
-Dashboard exploration
-GitOps with ArgoCD
-ArgoCD was used to explore GitOps deployment workflows.
-Activities included:
-Dashboard access
-Application synchronization
-Health verification
-Declarative deployment understanding
-Additional Experiments
-Additional cloud-native experiments included:
-Amazon S3 validation
-Istio exploration
-Bookinfo sample application investigation
-Service mesh observability concepts
-Testing and Validation
-The following activities were successfully validated:
-EKS cluster accessibility
-Worker node readiness
-Kubernetes operations
-ArgoCD deployment
-Prometheus installation
-Grafana dashboards
-Statistical anomaly detection execution
-S3 validation activities
-Troubleshooting
-Cluster Validation
-bash
-kubectl get nodes
-kubectl get pods -A
-kubectl get namespaces
-kubectl cluster-info
-ArgoCD
-bash
-kubectl get pods -n argocd
-kubectl logs -n argocd deployment/argocd-server
-Monitoring
-bash
-kubectl get pods -n monitoring
-kubectl get svc -n monitoring
-Anomaly Detection
-bash
-kubectl get jobs
-kubectl logs job/anomaly-detector
-Future Enhancements
-Potential future improvements include:
-Full GitOps auto-sync workflows
-Service mesh implementation using Istio
-Kiali integration
-Real-time anomaly detection
-CI/CD integration
-Containerized anomaly detection images
+uvicorn app.main:app --reload
+```
 
-## Challenges Faced
+Swagger UI:
 
-During the implementation of KRONOS, several practical challenges were encountered:
+```
+http://localhost:8000/docs
+```
 
-- Configuring Kubernetes access to the Amazon EKS cluster and validating the correct kubeconfig context.
-- Troubleshooting Prometheus and Grafana deployments while understanding Helm chart configurations.
-- Understanding ArgoCD concepts such as synchronization, application health, and declarative deployment workflows.
-- Designing an anomaly detection approach that balanced accuracy and false positives using multiple statistical methods.
-- Organizing the repository structure and documentation to accurately reflect the implementation process.
-- Distinguishing between continuously running workloads and batch workloads, which led to using Kubernetes Jobs for anomaly detection execution.
+## Docker
 
-These challenges provided valuable hands-on experience in debugging, problem-solving, and understanding cloud-native operational practices.
-Author
-Siri Kadali
-B.Tech Student
-Aditya College of Engineering and Technology
-Focus Areas:
-Cloud Computing
-DevOps
-Kubernetes
-AWS
-Observability
-License
-This project is licensed under the MIT License.
-Status
-Project Status: Completed as a hands-on cloud-native implementation and learning project.
-Region: Asia Pacific (Mumbai)
-This repository represents a practical cloud-native learning and implementation journey, demonstrating hands-on experience with Kubernetes operations, observability practices, GitOps workflows, and statistical anomaly detection.
+```bash
+docker compose up --build
+```
 
+## Kubernetes
+
+```bash
+kubectl apply -k k8s/base
+```
+
+## API Endpoints
+
+- GET /
+- GET /health
+- GET /ready
+- GET /metrics
+- POST /auth/register
+- POST /auth/login
+- POST /detect/
+
+Example request:
+
+```json
+{
+  "column_name": "value",
+  "values": [10,12,13,11,10,12,11,13,14,100]
+}
+```
+
+## Monitoring
+
+- Prometheus metrics endpoint
+- Grafana dashboards
+- Request latency metrics
+- Request counters
+- Error metrics
+
+## CI/CD
+
+GitHub Actions performs:
+
+- Dependency installation
+- Python syntax validation
+- Import validation
+- Docker image build
+- Container image publishing
+
+## Testing
+
+Current test coverage includes:
+
+- Configuration tests
+- Detector service tests
+- Root endpoint tests
+- Health endpoint tests
+
+Run tests:
+
+```bash
+pytest -v
+```
+
+Coverage:
+
+```bash
+pytest --cov=app --cov-report=term
+```
+
+## Security
+
+- JWT authentication
+- Password hashing
+- Protected endpoints
+- Environment-based configuration
+
+## Production-Oriented Features
+
+- Async FastAPI architecture
+- Dockerized deployment
+- Kubernetes manifests
+- Health and readiness endpoints
+- Prometheus metrics
+- Centralized configuration
+- Logging
+- Alembic migrations
+- GitHub Actions CI/CD
+
+## Future Improvements
+
+- Increase automated test coverage
+- Additional anomaly detection algorithms
+- Enhanced authorization
+- Performance optimization
+
+## License
+
+This project is licensed under the **MIT License**.
+
+> Add an `LICENSE` file containing the MIT License text before making the repository public.
+
+## Author
+
+**kadali.siri**
+
+Cloud-Native Backend Engineering Portfolio Project
