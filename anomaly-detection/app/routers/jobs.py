@@ -23,9 +23,7 @@ csv_service = CSVService()
 async def upload_job(
     file: UploadFile = File(...),
     db: AsyncSession = Depends(get_db),
-    current_user: User = Depends(
-        require_roles("admin", "analyst")
-    ),
+    current_user: User = Depends(require_roles("admin", "analyst")),
 ):
     """
     Upload a CSV file, save it, create a pending job,

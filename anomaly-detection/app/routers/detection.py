@@ -32,11 +32,7 @@ async def detect(
 
     start_time = time.perf_counter()
 
-    dataframe = pd.DataFrame(
-        {
-            request.column_name: request.values
-        }
-    )
+    dataframe = pd.DataFrame({request.column_name: request.values})
 
     result = service.run_detection(
         dataframe=dataframe,

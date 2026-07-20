@@ -32,9 +32,7 @@ class AuthService:
         )
 
         if existing_user:
-            raise ValueError(
-                "User already exists."
-            )
+            raise ValueError("User already exists.")
 
         user = User(
             full_name=user_data.full_name,
@@ -60,17 +58,13 @@ class AuthService:
         )
 
         if user is None:
-            raise ValueError(
-                "Invalid email or password."
-            )
+            raise ValueError("Invalid email or password.")
 
         if not verify_password(
             password,
             user.hashed_password,
         ):
-            raise ValueError(
-                "Invalid email or password."
-            )
+            raise ValueError("Invalid email or password.")
 
         token = create_access_token(
             {

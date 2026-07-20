@@ -1,5 +1,5 @@
-from pathlib import Path
 import sys
+from pathlib import Path
 
 import pandas as pd
 
@@ -37,11 +37,11 @@ class DetectorService:
         )
 
     def run_detection(
-    self,
-    dataframe: pd.DataFrame,
-    column_name: str,
-    output_file: str | None = None,
-):
+        self,
+        dataframe: pd.DataFrame,
+        column_name: str,
+        output_file: str | None = None,
+    ):
         """
         Execute the complete anomaly detection pipeline.
         """

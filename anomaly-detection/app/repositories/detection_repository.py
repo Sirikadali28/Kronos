@@ -22,9 +22,7 @@ class DetectionRepository:
 
     async def get_all(self) -> list[DetectionHistory]:
         result = await self.db.execute(
-            select(DetectionHistory).order_by(
-                DetectionHistory.created_at.desc()
-            )
+            select(DetectionHistory).order_by(DetectionHistory.created_at.desc())
         )
         return list(result.scalars().all())
 
@@ -33,9 +31,7 @@ class DetectionRepository:
         detection_id: UUID,
     ) -> DetectionHistory | None:
         result = await self.db.execute(
-            select(DetectionHistory).where(
-                DetectionHistory.id == detection_id
-            )
+            select(DetectionHistory).where(DetectionHistory.id == detection_id)
         )
         return result.scalar_one_or_none()
 

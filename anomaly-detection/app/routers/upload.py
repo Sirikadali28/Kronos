@@ -4,6 +4,7 @@ from fastapi import (
     File,
     HTTPException,
     UploadFile,
+    status,
 )
 
 from app.core.permissions import require_roles
@@ -32,9 +33,9 @@ async def upload_csv(
     Upload a CSV file and run anomaly detection.
     """
 
-    if not file.filename.endswith(".csv"):
+    if file.filename is None or not file.filename.endswith(".csv"):
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="Only CSV files are allowed.",
         )
 
@@ -42,7 +43,7 @@ async def upload_csv(
 
     if column_name not in dataframe.columns:
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Column '{column_name}' not found.",
         )
 

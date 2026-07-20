@@ -1,15 +1,14 @@
-from logging.config import fileConfig
 import os
+from logging.config import fileConfig
 
-from alembic import context
 from sqlalchemy import create_engine
 
+from alembic import context
 from app.db.base import Base
 
 # Import all models
 from app.db.detection_history import DetectionHistory  # noqa: F401
 from app.db.job_history import JobHistory  # noqa: F401
-from app.db.user import User
 
 config = context.config
 

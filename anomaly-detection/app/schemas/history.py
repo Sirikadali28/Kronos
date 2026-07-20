@@ -14,9 +14,7 @@ class HistoryResponse(BaseModel):
     algorithm_version: str
     report_path: str | None
 
-    model_config = {
-        "from_attributes": True
-    }
+    model_config = {"from_attributes": True}
 
 
 class HistoryListResponse(BaseModel):

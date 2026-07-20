@@ -1,6 +1,6 @@
+import asyncio
 from datetime import datetime
 from pathlib import Path
-import asyncio
 
 from app.core.database import SessionLocal
 from app.repositories.job_repository import JobRepository

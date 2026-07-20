@@ -28,16 +28,12 @@ class JobRepository:
         task_id: str,
     ) -> JobHistory | None:
         result = await self.db.execute(
-            select(JobHistory).where(
-                JobHistory.celery_task_id == task_id
-            )
+            select(JobHistory).where(JobHistory.celery_task_id == task_id)
         )
         return result.scalar_one_or_none()
 
     async def get_all(self):
         result = await self.db.execute(
-            select(JobHistory).order_by(
-                JobHistory.created_at.desc()
-            )
+            select(JobHistory).order_by(JobHistory.created_at.desc())
         )
         return list(result.scalars().all())
